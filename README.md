@@ -2,10 +2,9 @@
 
 The Volumetric Colocalization engine, as an embeddable module.
 
-**Status (2026-08-05): built.** The engine is extracted, tested and green —
-`mvn package`, 51 tests — and gated by a live A/B against the plugin's own
-engine: **299 comparisons, all Tier 1 fields, zero differences.** The plugin has
-not yet been rewired onto it; see *Where this stands* below.
+**Status (2026-08-05): built, adopted and shipping inside the plugin.**
+51 tests green here; Volumetric Colocalization runs on it, its own copy of the
+engine deleted, 111 tests green and **299 golden dumps unmoved, bit-for-bit.**
 
 **Pattern:** `../PLUGIN_CORE_PATTERN.md`
 **Depends on:** `net.imagej:ij` only. **Not** `oc3d-core` yet — the spec's
@@ -30,28 +29,32 @@ mvn install     # needed before the plugin's equivalence harness can run
 
 ## Where this stands
 
-Done here:
+Migration stages 1, 2 and 3 are done.
 
-- The engine, extracted verbatim — same arithmetic, same traversal order, same
-  tie-breaks, same rejection messages.
-- Validation and channel-name normalisation moved in, because the normalised
-  names are what combination patterns are built from and are therefore output.
-- The ship gate: `01 - Volumetric Colocalization/src/test/java/volcoloc/equivalence/`
-  runs both engines over 23 corpus cases × 13 configurations and compares every
-  Tier 1 field as raw bits, plus 13 rejection-message parity checks and a
-  negative control that proves the comparison can fail.
+- **The engine, extracted verbatim** — same arithmetic, traversal order,
+  tie-breaks and rejection messages. Validation and channel-name normalisation
+  came with it, because the normalised names are what combination patterns are
+  built from and are therefore output, not presentation.
+- **The plugin runs on it.** `VolColocAnalysis`, `BoundingBoxAnalysis` and
+  `PrimitiveMaps` are deleted; `VolColocResult` is now a table adapter over
+  `OverlapResult`.
+- **Shaded and relocated** into the plugin jar as `volcoloc.internal.volcoloc`,
+  alongside `oc3d-core` as `volcoloc.internal.core`. Verified on the built
+  artifact and by running it with nothing on the classpath but `ij`.
+- **Gated.** The extraction was first proved by running both engines side by
+  side over 23 corpus cases × 13 configurations — 299 comparisons, every Tier 1
+  field as raw double bits, zero differences. That test could only live while
+  both engines existed, so its output was captured as goldens before the
+  rewire; `GoldenEquivalenceTest` has gated every change since.
 
-Not done, and deliberately not:
+Still open:
 
-- **The plugin still has its own copy.** `volcoloc-core` is a *test-scope*
-  dependency of the plugin so the two engines stay independently observable.
-  Deleting `VolColocAnalysis` and turning `VolColocResult` into a table adapter
-  is the rest of Stage 2, and it should land on a green gate — which now exists.
-- **Stage 1 chassis adoption** (`LabelUtils`, macro parser, batch, `ToggleSwitch`
-  → `oc3d-core`) is untouched. It is the larger change and carries the
-  stricter-rules-must-survive requirement.
-- **Stage 3 shading.** The plugin does not shade yet, so it would not currently
-  find the core at runtime in Fiji. Required before any release.
+- **Stage 4, first release** — wiki page, update site, `sites.yml` PR, Zenodo
+  DOI. Needs a person; nothing here publishes anything.
+- **The batch and macro-option classes stay in the plugin.** `oc3d-core` offers
+  parsing primitives, not an option model, and this plugin's model is its own
+  vocabulary. Sharing them needs generalisation work in the chassis that does
+  not exist yet.
 
 Decisions taken during extraction, including the two the plan asked to be
 settled by reading: `DECISIONS.md`.

@@ -50,7 +50,10 @@ Migration stages 1, 2 and 3 are done.
 Still open:
 
 - **Stage 4, first release** — wiki page, update site, `sites.yml` PR, Zenodo
-  DOI. Needs a person; nothing here publishes anything.
+  DOI. All three are now **drafted and validated but not submitted**, in
+  `../01 - Volumetric Colocalization/docs/RELEASE_STAGE4.md` and the shared
+  submission bundle. What is left needs a person: interactive Fiji acceptance
+  testing, the accounts, and the live upload. Nothing here publishes anything.
 - **The batch and macro-option classes stay in the plugin.** `oc3d-core` offers
   parsing primitives, not an option model, and this plugin's model is its own
   vocabulary. Sharing them needs generalisation work in the chassis that does

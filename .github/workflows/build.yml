@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Java 21 builds it; the bytecode target stays at 8, set by pom-scijava.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # `net.imagej:ij` is the only dependency, declared here directly rather
+      # than inherited through oc3d-core, because provided scope is not
+      # transitive. See DECISIONS.md § 3.
+      - name: Build and test
+        run: mvn --batch-mode --no-transfer-progress clean verify
+
+      # This engine must run headless: no dialog, no Swing, no IJ.error. It
+      # throws, and the plugin embedding it decides how to present the failure.
+      # Easy to break by accident, and invisible until a consumer tries to use
+      # the module from a macro or a script.
+      - name: Check it stays headless
+        run: |
+          if grep -rn --include=*.java \
+               -e '^\s*import javax\.swing' -e 'GenericDialog' \
+               -e 'IJ\.error(' -e 'System\.exit(' \
+               src/main/java; then
+            echo "FAIL: this core must run headless and must not present errors."
+            exit 1
+          fi
+          echo "OK: headless."

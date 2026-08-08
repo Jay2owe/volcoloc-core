@@ -14,7 +14,7 @@
 
 	<groupId>io.github.jay2owe</groupId>
 	<artifactId>volcoloc-core</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 
 	<name>volcoloc-core</name>
 	<description>Volumetric colocalization engine, as an embeddable module. Never shipped as a jar.</description>

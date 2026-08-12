@@ -168,8 +168,9 @@ Never relocate `volcoloc.VolColoc` or the public API.
 
 ## Licence
 
-BSD-3-Clause. Links `net.imagej:ij` only — declared **directly**, not inherited
-through `oc3d-core`.
+BSD-3-Clause — see `LICENSE`, with attribution in `NOTICE`. Links
+`net.imagej:ij` only — declared **directly**, not inherited through
+`oc3d-core`.
 
 The earlier wording here said "via `oc3d-core`". That cannot work: `oc3d-core`
 declares `ij` at `provided` scope, and Maven does not propagate `provided`

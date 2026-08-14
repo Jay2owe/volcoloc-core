@@ -1,5 +1,7 @@
 # volcoloc-core
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21933281.svg)](https://doi.org/10.5281/zenodo.21933281)
+
 The Volumetric Colocalization engine, as an embeddable module.
 
 **Status (2026-08-05): built, adopted and shipping inside the plugin.**
@@ -49,11 +51,10 @@ Migration stages 1, 2 and 3 are done.
 
 Still open:
 
-- **Stage 4, first release** — wiki page, update site, `sites.yml` PR, Zenodo
-  DOI. All three are now **drafted and validated but not submitted**, in
+- **Stage 4, public distribution** — the GitHub and Zenodo releases are live.
+  The wiki page, update site and `sites.yml` pull request remain tracked in
   `../01 - Volumetric Colocalization/docs/RELEASE_STAGE4.md` and the shared
-  submission bundle. What is left needs a person: interactive Fiji acceptance
-  testing, the accounts, and the live upload. Nothing here publishes anything.
+  submission bundle.
 - **The batch and macro-option classes stay in the plugin.** `oc3d-core` offers
   parsing primitives, not an option model, and this plugin's model is its own
   vocabulary. Sharing them needs generalisation work in the chassis that does
@@ -165,6 +166,12 @@ Must run headless. Throws; the plugin presents.
 ```
 
 Never relocate `volcoloc.VolColoc` or the public API.
+
+## Citation
+
+> Malcolm, J. (2026). *volcoloc-core: Embeddable directional volume-overlap
+> engine* (Version 0.1.0) [Computer software]. Zenodo.
+> https://doi.org/10.5281/zenodo.21933282
 
 ## Licence
 
